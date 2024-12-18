@@ -1,5 +1,15 @@
 <template>
-    <h1>
-        Welcome to Pokemon GO!
-    </h1>
+  <div class="screen">
+    <base-card></base-card>
+  </div>
 </template>
+
+<script>
+import BaseCard from "./BaseCard";
+
+export default {
+  components: {
+    BaseCard,
+  },
+};
+</script>
