@@ -1,38 +1,38 @@
-name: Build and Test with Yarn
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - master  # Chạy khi có sự thay đổi trên nhánh 'main'
-  pull_request:
-    branches:
-      - master  # Chạy khi có pull request vào nhánh 'main'
+      - master   # Trigger this action on push to the `master` branch
 
 jobs:
-  install-and-build:
-    runs-on: ubuntu-latest  # Chạy trên môi trường Ubuntu mới nhất
-    
+  deploy:
+    runs-on: ubuntu-latest  # Specify the operating system to run the job
+
     steps:
-    # Bước 1: Kiểm tra mã nguồn
-    - name: Checkout repository
-      uses: actions/checkout@v3
-    
-    # Bước 2: Cài đặt Yarn
-    - name: Set up Node.js and Yarn
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'  # Hoặc phiên bản Node.js mà bạn cần
-        cache: 'yarn'  # Cache Yarn để tăng tốc quá trình cài đặt
-       
-    # Bước 3: Cài đặt dependencies
-    - name: Install dependencies with Yarn
-      run: yarn install
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    # Bước 4: Chạy test
-    - name: Run tests
-      run: yarn test
-    
-    # Bước 5: Build ứng dụng
-    - name: Build the app
-      run: yarn build
+      # Step 2: Set up Node.js (using Yarn)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'   # Specify the Node.js version to use
+          cache: 'yarn'         # Cache Yarn dependencies
 
+      # Step 3: Install dependencies with Yarn
+      - name: Install dependencies
+        run: yarn install
+
+      # Step 4: Build the project
+      - name: Build the project
+        run: yarn build
+
+      # Step 5: Deploy to GitHub Pages (using `gh-pages` package)
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages            # Specify the target branch for deployment
+          folder: dist                 # Folder to deploy (usually `dist` for Vue.js)
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use the GitHub token for authentication

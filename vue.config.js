@@ -1,4 +1,5 @@
-const { defineConfig } = require('@vue/cli-service')
-module.exports = defineConfig({
-  publicPath: '/Pokemon/'  //you have to add your repo name here 
-})
+module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/Pokemon/'  // Replace with your repo name
+    : '/'
+};
