@@ -19,10 +19,10 @@ jobs:
         node-version: '16' # Hoặc phiên bản Node.js bạn đang sử dụng
 
     - name: Install Dependencies
-      run: npm install
+      run: yarn install
 
     - name: Build Project
-      run: npm run build
+      run: yarn build
 
     - name: Deploy to GitHub Pages
       uses: thefrustrateddev/vue-deploy-github-pages@v1.0.0

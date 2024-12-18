@@ -1,6 +1,6 @@
 <template>
-  <main-screen />
-  <interact-screen />
+  <main-screen v-if="statusMatch === 'default'"/>
+  <interact-screen v-if="statusMatch === 'match'"/>
 </template>
 
 <script>
@@ -11,8 +11,8 @@ export default {
   data() {
     return {
       statusMatch: "default"
-    }
-  }
+    };
+  },
   components: {
     MainScreen,
     InteractScreen
