@@ -6,7 +6,7 @@
 <script>
 import MainScreen from "./components/MainScreen.vue";
 import InteractScreen from "./components/InteractScreen.vue";
-
+import { shuffled } from "./utils/array";
 export default {
   name: "App",
   components: {
@@ -26,14 +26,20 @@ export default {
   },
   methods: {
     onHandleBeforeStart(configs) {
-      console.log("Configs:", configs); // Kiểm tra giá trị của configs
-      this.settings.totalOfBlocks = configs.size; // Đảm bảo rằng bạn dùng 'size' thay vì 'totalOfBlocks'
-      console.log("Total of blocks:", this.settings.totalOfBlocks); // Kiểm tra giá trị của totalOfBlocks
+      console.log("Configs:", configs);
+      this.settings.totalOfBlocks = configs.size;
+      console.log("Total of blocks:", this.settings.totalOfBlocks);
       const firstCards = Array.from(
         { length: this.settings.totalOfBlocks / 2 },
         (_, i) => i + 1
       );
-      console.log("First cards:", firstCards); // Kiểm tra mảng firstCards
+      console.log("First cards:", firstCards);
+
+      const secondCards = [...firstCards];
+      const cards = [...firstCards, ...secondCards];
+      console.log(cards);
+      this.settings.cardsContext = shuffled(shuffled(shuffled(cards)));
+      this.settings.startedAt = new Date().getTime();
       this.statusMatch = "match";
     },
   },
