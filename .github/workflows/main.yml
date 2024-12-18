@@ -1,0 +1,32 @@
+name: Build and Deploy Vue Application to Github Pages
+
+on: 
+  push:
+    branches:
+      - main # Thay main bằng nhánh bạn muốn triển khai nếu khác
+
+jobs:
+  build_deploy_vue:
+    runs-on: ubuntu-latest
+    name: Build and Deploy Vue
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Install Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16' # Hoặc phiên bản Node.js bạn đang sử dụng
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build Project
+      run: npm run build
+
+    - name: Deploy to GitHub Pages
+      uses: thefrustrateddev/vue-deploy-github-pages@v1.0.0
+      with:
+        username: 'ngtinn59' # Thay bằng tên người dùng GitHub của bạn
+        reponame: 'Pokemon' # Thay bằng tên repository của bạn
+        token: ${{ secrets.GITHUB_TOKEN }} # Không cần thay đổi dòng này

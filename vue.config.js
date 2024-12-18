@@ -1,4 +1,4 @@
-const { defineConfig } = require('@vue/cli-service')
-module.exports = defineConfig({
-  transpileDependencies: true
-})
+module.exports = {
+  publicPath: '/Pokemon
+/' // Thay <repoName> bằng tên repository GitHub của bạn
+}
