@@ -1,6 +1,6 @@
 <template>
   <main-screen v-if="statusMatch === 'default'" @onStart="onHandleBeforeStart($event)" />
-  <interact-screen v-if="statusMatch === 'match'" />
+  <interact-screen v-if="statusMatch === 'match'" :cardsContext="settings.cardsContext" />
 </template>
 
 <script>
