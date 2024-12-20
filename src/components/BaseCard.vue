@@ -1,5 +1,8 @@
 <template>
-  <div class="card" :class="{ disabled: isDisabled }">
+  <div
+    class="card"
+    :class="{ disabled: isDisabled, matched: isMatched, unmatched: isUnmatched }"
+  >
     <div
       class="card__inner"
       :class="{ 'is-flipped': isFlipped }"
@@ -33,6 +36,8 @@ export default {
     return {
       isFlipped: false,
       isDisabled: false,
+      isMatched: false,
+      isUnmatched: false,
     };
   },
   methods: {
@@ -45,9 +50,14 @@ export default {
     },
     ontoggleFlipCardBack() {
       this.isFlipped = false;
+      this.isUnmatched = false;
     },
     onEnableCard() {
       this.isDisabled = true;
+      this.isMatched = true;
+    },
+    onMarkUnmatched() {
+      this.isUnmatched = true;
     },
   },
 };
@@ -107,7 +117,7 @@ export default {
 
 /* Add animations for matched and unmatched cards */
 .card.matched {
-  animation: matchedAnimation 1s forwards;
+  animation: matchedAnimation 1s forwards, explosion 0.5s forwards;
 }
 
 .card.unmatched {
@@ -135,6 +145,22 @@ export default {
   }
   100% {
     transform: rotateY(0);
+  }
+}
+
+/* Add explosion animation */
+@keyframes explosion {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
   }
 }
 </style>
