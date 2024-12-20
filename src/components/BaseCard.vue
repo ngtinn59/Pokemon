@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="{ disabled: isDisabled }">
     <div
       class="card__inner"
       :class="{ 'is-flipped': isFlipped }"
@@ -20,6 +20,10 @@
 <script>
 export default {
   props: {
+    card: {
+      type: [Object, Number],
+      required: true,
+    },
     imgBackFaceUrl: {
       type: String,
       required: true,
@@ -28,22 +32,34 @@ export default {
   data() {
     return {
       isFlipped: false,
+      isDisabled: false,
     };
   },
   methods: {
     ontoggleFlipCard() {
+      if (this.isDisabled) return false;
       this.isFlipped = !this.isFlipped;
+      if (this.isFlipped) {
+        this.$emit("onFlipCard", this.card);
+      }
+    },
+    ontoggleFlipCardBack() {
+      this.isFlipped = false;
+    },
+    onEnableCard() {
+      this.isDisabled = true;
     },
   },
 };
 </script>
-<style lang="css" scope>
+<style lang="css" scoped>
 .card {
   display: inline-block;
   margin-right: 1rem;
   margin-bottom: 1rem;
   width: 90px;
   height: 120px;
+  perspective: 1000px; /* Add perspective for 3D effect */
 }
 
 .card__inner {
@@ -55,15 +71,8 @@ export default {
   position: relative;
 }
 
-.card__face--front .card__content {
-  background: url(../assets/images/icon_back.png) no-repeat center center;
-  background-size: 40px 40px;
-  height: 100%;
-  word-wrap: 100%;
-}
-
 .card__inner.is-flipped {
-  transform: rotateY(-180deg);
+  transform: rotateY(180deg);
 }
 
 .card_face {
@@ -77,14 +86,55 @@ export default {
   box-shadow: 0 3px 10px 3px rgba(0, 0, 0, 0.2);
 }
 
+.card__face--front .card__content {
+  background: url(../assets/images/icon_back.png) no-repeat center center;
+  background-size: 40px 40px;
+  height: 100%;
+  word-wrap: 100%;
+}
+
 .card__face--back {
   background-color: var(--light);
-  transform: rotateY(-180deg);
+  transform: rotateY(180deg);
 }
+
 .card__face--back .card__content {
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
   height: 100%;
+}
+
+/* Add animations for matched and unmatched cards */
+.card.matched {
+  animation: matchedAnimation 1s forwards;
+}
+
+.card.unmatched {
+  animation: unmatchedAnimation 1s forwards;
+}
+
+@keyframes matchedAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes unmatchedAnimation {
+  0% {
+    transform: rotateY(0);
+  }
+  50% {
+    transform: rotateY(90deg);
+  }
+  100% {
+    transform: rotateY(0);
+  }
 }
 </style>
