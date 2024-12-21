@@ -2,6 +2,13 @@
   <div
     class="card"
     :class="{ disabled: isDisabled, matched: isMatched, unmatched: isUnmatched }"
+    :style="{
+      height: `${(920 - 16 * 4) / Math.sqrt(cardsContext.length) - 16}px`,
+      width: `${(((920 - 16 * 4) / Math.sqrt(cardsContext.length) - 16) * 3) / 4}px`,
+      perspective: `${
+        ((((920 - 16 * 4) / Math.sqrt(cardsContext.length) - 16) * 3) / 4) * 2
+      }px`,
+    }"
   >
     <div
       class="card__inner"
@@ -9,7 +16,16 @@
       @click="ontoggleFlipCard"
     >
       <div class="card_face card__face--front">
-        <div class="card__content"></div>
+        <div
+          class="card__content"
+          :style="{
+            'background-size': `${
+              (((920 - 16 * 4) / Math.sqrt(cardsContext.length) - 16) * 3) / 4 / 3
+            }px ${
+              (((920 - 16 * 4) / Math.sqrt(cardsContext.length) - 16) * 3) / 4 / 3
+            }px`,
+          }"
+        ></div>
       </div>
       <div class="card_face card__face--back">
         <div
@@ -30,6 +46,10 @@ export default {
     imgBackFaceUrl: {
       type: String,
       required: true,
+    },
+    cardsContext: {
+      type: Array,
+      default: () => [],
     },
   },
   data() {
@@ -67,8 +87,6 @@ export default {
   display: inline-block;
   margin-right: 1rem;
   margin-bottom: 1rem;
-  width: 90px;
-  height: 120px;
   perspective: 1000px; /* Add perspective for 3D effect */
 }
 
@@ -98,7 +116,6 @@ export default {
 
 .card__face--front .card__content {
   background: url(../assets/images/icon_back.png) no-repeat center center;
-  background-size: 40px 40px;
   height: 100%;
   word-wrap: 100%;
 }
